@@ -47,7 +47,8 @@ public class ArrayStackTest {
         Stack<Integer> s = new ArrayStack<>();
         for (int i = 0; i < 10; ++i)
             s.push(i);
-        assertEquals(9, Optional.ofNullable(s.top()));
+        //assertEquals(9, Optional.ofNullable(s.top()));
+        assertEquals(9, s.top());
     }
 
     @Test
@@ -55,7 +56,8 @@ public class ArrayStackTest {
         Stack<Integer> s = new ArrayStack<>();
         for (int i = 0; i < 10; ++i)
             s.push(i);
-        assertEquals(9, Optional.ofNullable(s.pop()));
+        //assertEquals(9, Optional.ofNullable(s.pop()));
+        assertEquals(9, s.pop());
         assertEquals(9, s.size());
     }
 

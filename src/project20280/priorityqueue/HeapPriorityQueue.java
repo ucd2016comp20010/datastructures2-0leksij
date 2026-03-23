@@ -43,75 +43,77 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      * @param values an array of the initial values for the priority queue
      */
     public HeapPriorityQueue(K[] keys, V[] values) {
-        // TODO
+        super();
+        for (int i = 0; i < Math.min(keys.length, values.length); i++) {
+            heap.add(new PQEntry<>(keys[i], values[i]));
+        }
+        heapify();
     }
 
     // protected utilities
     protected int parent(int j) {
-        // TODO
-        return 0;
+        return (j - 1) / 2;
     }
 
     protected int left(int j) {
-        // TODO
-        return 0;
+        return 2 * j + 1;
     }
 
     protected int right(int j) {
-        // TODO
-        return 0;
+        return 2 * j + 2;
     }
 
     protected boolean hasLeft(int j) {
-        // TODO
-        return false;
+        return left(j) < heap.size();
     }
 
     protected boolean hasRight(int j) {
-        // TODO
-        return false;
+        return right(j) < heap.size();
     }
 
-    /**
-     * Exchanges the entries at indices i and j of the array list.
-     */
     protected void swap(int i, int j) {
-        // TODO
+        Entry<K, V> temp = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, temp);
     }
 
-    /**
-     * Moves the entry at index j higher, if necessary, to restore the heap
-     * property.
-     */
     protected void upheap(int j) {
-        // TODO
+        while (j > 0) {
+            int p = parent(j);
+            if (compare(heap.get(j), heap.get(p)) >= 0) break;
+            swap(j, p);
+            j = p;
+        }
     }
 
-    /**
-     * Moves the entry at index j lower, if necessary, to restore the heap property.
-     */
     protected void downheap(int j) {
-        // TODO
+        while (hasLeft(j)) {
+            int leftIdx = left(j);
+            int smallChildIdx = leftIdx;
+
+            if (hasRight(j)) {
+                int rightIdx = right(j);
+                if (compare(heap.get(leftIdx), heap.get(rightIdx)) > 0) {
+                    smallChildIdx = rightIdx;
+                }
+            }
+
+            if (compare(heap.get(smallChildIdx), heap.get(j)) >= 0) break;
+
+            swap(j, smallChildIdx);
+            j = smallChildIdx;
+        }
     }
 
-    /**
-     * Performs a bottom-up construction of the heap in linear time.
-     */
     protected void heapify() {
-        // TODO
+        // Start from the last internal node and downheap each one
+        int startIdx = parent(heap.size() - 1);
+        for (int j = startIdx; j >= 0; j--) {
+            downheap(j);
+        }
     }
 
-    // public methods
 
-    /**
-     * Returns the number of items in the priority queue.
-     *
-     * @return number of items
-     */
-    @Override
-    public int size() {
-        return heap.size();
-    }
 
     /**
      * Returns (but does not remove) an entry with minimal key.
@@ -121,6 +123,11 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
     @Override
     public Entry<K, V> min() {
         return heap.get(0);
+    }
+
+    @Override
+    public int size() {
+        return heap.size();
     }
 
     /**
@@ -133,8 +140,11 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      */
     @Override
     public Entry<K, V> insert(K key, V value) throws IllegalArgumentException {
-        // TODO
-        return null;
+        checkKey(key);
+        Entry<K, V> newest = new PQEntry<>(key, value);
+        heap.add(newest);
+        upheap(heap.size() - 1);
+        return newest;
     }
 
     /**
@@ -144,8 +154,12 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      */
     @Override
     public Entry<K, V> removeMin() {
-        // TODO
-        return null;
+        if (heap.isEmpty()) return null;
+        Entry<K, V> answer = heap.get(0);
+        swap(0, heap.size() - 1);
+        heap.remove(heap.size() - 1);
+        downheap(0);
+        return answer;
     }
 
     public String toString() {

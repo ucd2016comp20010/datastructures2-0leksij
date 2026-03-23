@@ -55,13 +55,13 @@ class AVLTreeMapTest {
         //assertEquals("26", map.remove(26));
         //assertEquals(11, map.size());
 
-        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17, 53]", map.toString());
+        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17, 53]", map.toStringO());
 
         map.remove(53);
 
         System.out.println(map.tree.toBinaryTreeString());
 
-        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17]", map.toString());
+        assertEquals("[4, 7, 8, 11, 12, 13, 14, 17]", map.toStringO());
 
     }
     

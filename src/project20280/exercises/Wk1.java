@@ -9,9 +9,15 @@ public class Wk1 {
 
         System.out.println(my_array);
 
+        double sum = 0;
+        for(int i = 0; i<= my_array.length-1; i++) sum += my_array[i];
+        System.out.println(sum/my_array.length);
+        double average = Arrays.stream(my_array).average().orElse(0);
+        System.out.println(average);
         //double average = ...;
     }
     public static void main(String [] args) {
         q1();
     }
 }
+
