@@ -28,13 +28,16 @@ public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
     /**
      * Returns the index of an entry with equal key, or -1 if none found.
      */
+    // private utility
+    /** Returns the index of an entry with equal key, or -1 if none found. */
     private int findIndex(K key) {
-        // TODO
-        return 0;
+        int n = table.size();
+        for (int j = 0; j < n; j++)
+            if (table.get(j).getKey().equals(key)) return j;
+        return -1;
     }
 
     // public methods
-
     /**
      * Returns the number of entries in the map.
      *
@@ -53,9 +56,11 @@ public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
      * @return the associated value, or null if no such entry exists
      */
     @Override
+
     public V get(K key) {
-        // TODO
-        return null;
+        int j = findIndex(key);
+        if (j == -1) return null;
+        return table.get(j).getValue();
     }
 
     /**
@@ -70,8 +75,13 @@ public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
      */
     @Override
     public V put(K key, V value) {
-        // TODO
-        return null;
+        int j = findIndex(key);
+        if (j == -1) {
+            table.add(new MapEntry<>(key, value));
+            return null;
+        } else {
+            return table.get(j).setValue(value);
+        }
     }
 
     /**
@@ -84,10 +94,15 @@ public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
      */
     @Override
     public V remove(K key) {
-        // TODO
-        return null;
+        int j = findIndex(key);
+        if (j == -1) return null;
+        V answer = table.get(j).getValue();
+        // swap with last entry to avoid O(n) ArrayList shift, then remove last
+        int last = table.size() - 1;
+        table.set(j, table.get(last));
+        table.remove(last);
+        return answer;
     }
-
     // ---------------- nested EntryIterator class ----------------
     private class EntryIterator implements Iterator<Entry<K, V>> {
         private int j = 0;

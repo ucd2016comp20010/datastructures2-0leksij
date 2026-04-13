@@ -233,7 +233,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
     }
 
     // Some notational shorthands for brevity (yet not efficiency)
-    protected Position<Entry<K, V>> root() {
+    public Position<Entry<K, V>> root() {
         return tree.root();
     }
 
@@ -241,11 +241,11 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
         return tree.parent(p);
     }
 
-    protected Position<Entry<K, V>> left(Position<Entry<K, V>> p) {
+    public Position<Entry<K, V>> left(Position<Entry<K, V>> p) {
         return tree.left(p);
     }
 
-    protected Position<Entry<K, V>> right(Position<Entry<K, V>> p) {
+    public Position<Entry<K, V>> right(Position<Entry<K, V>> p) {
         return tree.right(p);
     }
 
@@ -257,11 +257,11 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
         return tree.isRoot(p);
     }
 
-    protected boolean isExternal(Position<Entry<K, V>> p) {
+    public boolean isExternal(Position<Entry<K, V>> p) {
         return tree.isExternal(p);
     }
 
-    protected boolean isInternal(Position<Entry<K, V>> p) {
+    public boolean isInternal(Position<Entry<K, V>> p) {
         return tree.isInternal(p);
     }
 

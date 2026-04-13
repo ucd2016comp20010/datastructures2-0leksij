@@ -15,6 +15,23 @@ import java.util.Comparator;
 
 public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
 
+    // Public accessors needed by WK7 traversal methods
+    public int heapSize() {
+        return heap.size();
+    }
+
+    public Entry<K, V> heapGet(int i) {
+        return heap.get(i);
+    }
+
+    public int leftIndex(int i) {
+        return left(i);
+    }
+
+    public int rightIndex(int i) {
+        return right(i);
+    }
+
     protected ArrayList<Entry<K, V>> heap = new ArrayList<>();
 
     /**
@@ -186,6 +203,9 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
                 System.out.println("=> " + e_left + ", " + heap.get(j) + ", " + e_right);
             }
         }
+
+
+
     }
 
     public static void main(String[] args) {

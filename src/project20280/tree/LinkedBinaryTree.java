@@ -326,13 +326,19 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     }
 
     public void createLevelOrder(ArrayList<E> l) {
-        // TODO
-    }
+              root = createLevelOrderHelper(l, root, 0);
+          }
 
-    private Node<E> createLevelOrderHelper(java.util.ArrayList<E> l, Node<E> p, int i) {
-        // TODO
-        return null;
-    }
+
+    private Node<E> createLevelOrderHelper(ArrayList<E> l, Node<E> p, int i) {
+              if (i >= l.size() || l.get(i) == null) return null;
+              Node<E> node = createNode(l.get(i), null, null, null);
+              node.setLeft (createLevelOrderHelper(l, node, 2 * i + 1));
+              node.setRight(createLevelOrderHelper(l, node, 2 * i + 2));
+              if (node.getLeft()  != null) node.getLeft() .setParent(node);
+              if (node.getRight() != null) node.getRight().setParent(node);
+              return node;
+        }
 
     public void createLevelOrder(E[] arr) {
         root = createLevelOrderHelper(arr, root, 0);
@@ -355,6 +361,31 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
         return node;
     }
+
+    /**
+     * Standalone helper for Q2 (ArrayList version).
+     * Uses the tree's createNode factory so BSTNode subclasses are handled correctly.
+     */
+    public <E> LinkedBinaryTree.Node<E> createLevelOrderFromList(
+            ArrayList<E> l,
+            LinkedBinaryTree<E> tree,
+            int i) {
+
+        if (i >= l.size() || l.get(i) == null) return null;
+
+        LinkedBinaryTree.Node<E> node = tree.createNode(l.get(i), null, null, null);
+
+        LinkedBinaryTree.Node<E> left  = createLevelOrderFromList(l, tree, 2 * i + 1);
+        LinkedBinaryTree.Node<E> right = createLevelOrderFromList(l, tree, 2 * i + 2);
+
+        node.setLeft(left);
+        node.setRight(right);
+        if (left  != null) left .setParent(node);
+        if (right != null) right.setParent(node);
+
+        return node;
+    }
+
 //Week 4 exercises
     public String toBinaryTreeString() {
         BinaryTreePrinter<E> btp = new BinaryTreePrinter<>(this);

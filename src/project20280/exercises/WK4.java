@@ -139,4 +139,75 @@ Postorder = Left  Right  Root
         }
 
     //Q6 – Count Total Descendants
+    public static void main(String[] args) {
+
+        // Build tree from level order:
+        //               A
+        //          /        \
+        //         B          C
+        //       /   \       /   \
+        //      D     E     F     G
+        //    /   \
+        //   H     I
+
+        LinkedBinaryTree<String> tree = new LinkedBinaryTree<>();
+        String[] arr = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+                null, null, null, null, null, null};
+        tree.createLevelOrder(arr);
+
+        System.out.println(tree.toBinaryTreeString());
+
+        // ---- Q1(h): Height + call count ----
+        System.out.println("=== Q1(h): Height ===");
+        heightWithCount(tree);
+        //calls = every node visited once
+
+        // ---- Q1(i): Diameter ----
+        System.out.println("\n=== Q1(i): Diameter ===");
+        System.out.println("Diameter: " + diameter(tree));
+
+
+        // ---- Q2: Count external nodes (leaves) ----
+        System.out.println("\n=== Q2: Count external nodes ===");
+        System.out.println("Leaves: " + countExternal(tree, tree.root()));
+        // Leaves: E, F, G, H, I => 5
+
+        // ---- Q3: Count left leaves ----
+        System.out.println("\n=== Q3: Count left leaves ===");
+        System.out.println("Left leaves: " + countLeftLeaves(tree, tree.root()));
+        // Left leaves: B is left child of A (internal), D is left of B (internal),
+        // H is left of D, E is left of B... wait E is right of B
+        // H(left of D, leaf), F(left of C, leaf) => 2
+
+        // ---- Q5: Count descendants ----
+        System.out.println("\n=== Q5: Count descendants ===");
+        System.out.println("Descendants of root: " + countDescendants(tree, tree.root()));
+        // All nodes except root = 8
+
+        System.out.println("Descendants of B:    " +
+                countDescendants(tree, tree.left(tree.root())));
+        // B's subtree: D, E, H, I => 4
+
+        System.out.println("Descendants of D:    " +
+                countDescendants(tree, tree.left(tree.left(tree.root()))));
+        // D's subtree: H, I => 2
+
+        // ---- Q4: Traversal order note (no code, just print) ----
+        System.out.println("\n=== Q4: Traversal orders ===");
+        System.out.println("Preorder  (Root=>Left=>Right): ");
+        for (Position<String> p : tree.preorder())
+            System.out.print(p.getElement() + " ");
+        System.out.println();
+
+        System.out.println("Inorder   (Left=>Root=>Right): ");
+        for (Position<String> p : tree.inorder())
+            System.out.print(p.getElement() + " ");
+        System.out.println();
+
+        System.out.println("Postorder (Left=>Right=>Root): ");
+        for (Position<String> p : tree.postorder())
+            System.out.print(p.getElement() + " ");
+        System.out.println();
+    }
+
     }

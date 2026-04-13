@@ -29,7 +29,7 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
     /**
      * Returns the height of the given tree position.
      */
-    protected int height(Position<Entry<K, V>> p) {
+    public int height(Position<Entry<K, V>> p) {
         return tree.getAux(p);  // aux field stores height at each node
     }
 

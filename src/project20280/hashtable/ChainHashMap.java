@@ -52,10 +52,10 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
      */
     @Override
     protected V bucketGet(int h, K k) {
-        // TODO
-        return null;
+        UnsortedTableMap<K, V> bucket = table[h];
+        if (bucket == null) return null;
+        return bucket.get(k);
     }
-
     /**
      * Associates key k with value v in bucket with hash value h, returning the
      * previously associated value, if any.
@@ -67,8 +67,13 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
      */
     @Override
     protected V bucketPut(int h, K k, V v) {
-        // TODO
-        return null;
+        UnsortedTableMap<K, V> bucket = table[h];
+        if (bucket == null) {
+            bucket = new UnsortedTableMap<>();
+            table[h] = bucket;
+        }
+        // Just return what the bucket returns — null means new key
+        return bucket.put(k, v);
     }
 
 
@@ -81,9 +86,11 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
      * @return previous value associated with k (or null, if no such entry)
      */
     @Override
+
     protected V bucketRemove(int h, K k) {
-        // TODO
-        return null;
+        UnsortedTableMap<K, V> bucket = table[h];
+        if (bucket == null) return null;
+        return bucket.remove(k);
     }
 
     /**
@@ -91,22 +98,14 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
      *
      * @return iterable collection of the map's entries
      */
-    @Override
     public Iterable<Entry<K, V>> entrySet() {
-        /*
-        for each element in (UnsortedTableMap []) table
-            for each element in bucket:
-                print element
-        */
-        ArrayList<Entry<K, V>> entries = new ArrayList<>();
-        for (UnsortedTableMap<K, V> tm : table) {
-            if (tm != null) {
-                for (Entry<K, V> e : tm.entrySet()) {
-                    entries.add(e);
-                }
-            }
+        ArrayList<Entry<K, V>> buffer = new ArrayList<>();
+        for (UnsortedTableMap<K, V> bucket : table) {
+            if (bucket != null)
+                for (Entry<K, V> entry : bucket.entrySet())
+                    buffer.add(entry);
         }
-        return entries;
+        return buffer;
     }
 
     public String toString() {
